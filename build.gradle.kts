@@ -1,10 +1,15 @@
+import groovy.lang.GroovyObject
+import org.gradle.internal.impldep.org.apache.maven.Maven
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
 
 plugins {
     idea
     java
+    `maven-publish`
     kotlin("jvm") version "1.3.10"
     id("com.github.johnrengelman.shadow") version "4.0.3"
+    id("com.jfrog.artifactory") version "4.8.1"
     id("com.gradle.build-scan") version "2.1"
 }
 
@@ -51,7 +56,34 @@ tasks {
         baseName = "oauth-sdk"
         classifier = "all"
         version = project.version.toString()
+        dependencies {
+            exclude(dependency("io.imulab.x:astrea-dependencies"))
+            exclude(dependency("org.slf4j:slf4j-api"))
+        }
     }
+}
+
+publishing {
+    publications {
+        register("oauth-sdk", MavenPublication::class.java) {
+            shadow.component(this)
+        }
+    }
+}
+
+artifactory {
+    setContextUrl(System.getenv("ARTIFACTORY_CONTEXT_URL") ?: "http://artifactory.imulab.io/artifactory")
+    publish(delegateClosureOf<PublisherConfig> {
+        repository(delegateClosureOf<GroovyObject> {
+            setProperty("repoKey", System.getenv("ARTIFACTORY_REPO") ?: "gradle-dev-local")
+            setProperty("username", System.getenv("ARTIFACTORY_USERNAME") ?: "imulab")
+            setProperty("password", System.getenv("ARTIFACTORY_PASSWORD") ?: "changeme")
+            setProperty("maven", true)
+        })
+        defaults(delegateClosureOf<GroovyObject> {
+            invokeMethod("publications", "oauth-sdk")
+        })
+    })
 }
 
 dependencies {
@@ -59,7 +91,6 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-
     api("org.mindrot:jbcrypt")
     api("org.bitbucket.b_c:jose4j")
 
