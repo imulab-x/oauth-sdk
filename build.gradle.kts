@@ -2,7 +2,9 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
     idea
+    java
     kotlin("jvm") version "1.3.10"
+    id("com.github.johnrengelman.shadow") version "4.0.3"
     id("com.gradle.build-scan") version "2.1"
 }
 
@@ -44,6 +46,11 @@ tasks {
         useJUnitPlatform {
             includeEngines("junit-jupiter", "spek2")
         }
+    }
+    shadowJar {
+        baseName = "oauth-sdk"
+        classifier = "all"
+        version = project.version.toString()
     }
 }
 
