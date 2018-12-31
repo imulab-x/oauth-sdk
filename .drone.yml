@@ -1,0 +1,11 @@
+---
+kind: pipeline
+name: oauth-sdk-pipeline
+
+steps:
+  - name: "unit, build, package"
+    image: gradle:5.0.0-jdk8
+    commands:
+      - gradle test
+      - gradle build
+      - gradle shadowJar
