@@ -4,7 +4,7 @@ name: oauth-sdk-pipeline
 
 steps:
   - name: "unit, build, package"
-    image: openjdk:8-jdk-stretch
+    image: davidiamyou/open-jdk-8:latest
     commands:
       - ./gradlew test
       - ./gradlew build
