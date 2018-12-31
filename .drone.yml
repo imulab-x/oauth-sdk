@@ -6,6 +6,7 @@ steps:
   - name: "unit, build, package"
     image: gradle:5.0.0-jdk8
     commands:
+      - chmod 666 /drone/src
       - gradle test
       - gradle build
       - gradle shadowJar
