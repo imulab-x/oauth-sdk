@@ -4,9 +4,8 @@ name: oauth-sdk-pipeline
 
 steps:
   - name: "unit, build, package"
-    image: gradle:5.0.0-jdk8
+    image: openjdk:8-jdk-stretch
     commands:
-      - sudo chmod 666 /drone/src
-      - gradle test
-      - gradle build
-      - gradle shadowJar
+      - ./gradlew test
+      - ./gradlew build
+      - ./gradlew shadowJar
