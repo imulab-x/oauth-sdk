@@ -15,5 +15,4 @@ steps:
     commands:
       - ./gradlew test
       - ./gradlew build
-      - ./gradlew shadowJar
       - ./gradlew artifactoryPublish
