@@ -6,9 +6,9 @@ import org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig
 plugins {
     idea
     java
+    `java-library`
     `maven-publish`
     kotlin("jvm") version "1.3.10"
-    id("com.github.johnrengelman.shadow") version "4.0.3"
     id("com.jfrog.artifactory") version "4.8.1"
     id("com.gradle.build-scan") version "2.1"
 }
@@ -20,7 +20,7 @@ buildScan {
 }
 
 group = "io.imulab.x"
-version = "0.1.0"
+version = "0.1.1"
 
 repositories {
     maven(url = "https://artifactory.imulab.io/artifactory/gradle-dev-local/")
@@ -52,21 +52,25 @@ tasks {
             includeEngines("junit-jupiter", "spek2")
         }
     }
-    shadowJar {
-        baseName = "oauth-sdk"
-        classifier = "all"
-        version = project.version.toString()
-        dependencies {
-            exclude(dependency("io.imulab.x:astrea-dependencies"))
-            exclude(dependency("org.slf4j:slf4j-api"))
-        }
-    }
 }
 
 publishing {
     publications {
-        register("oauth-sdk", MavenPublication::class.java) {
-            shadow.component(this)
+        create<MavenPublication>("oauth-sdk") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+            from(components["java"])
+            pom {
+                name.set(artifactId)
+                developers {
+                    developer {
+                        id.set("imulab")
+                        name.set("Weinan Qiu")
+                        email.set("davidiamyou@gmail.com")
+                    }
+                }
+            }
         }
     }
 }
