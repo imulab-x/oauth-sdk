@@ -5,12 +5,12 @@ name: oauth-sdk-pipeline
 steps:
   - name: "notify start"
     image: plugins/slack
-      settings:
-        webhook:
-          from_secret: slack_webhook_oauth_sdk
-        channel: oauth-sdk
-        template: >
-          Build {{build.number}} started at {{datetime build.started}}.
+    settings:
+      webhook:
+        from_secret: slack_webhook_oauth_sdk
+      channel: oauth-sdk
+      template: >
+        Build {{build.number}} started at {{datetime build.started}}.
   - name: "unit, build, package, publish"
     image: davidiamyou/open-jdk-8:latest
     environment:
