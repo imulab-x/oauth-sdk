@@ -10,7 +10,7 @@ steps:
         from_secret: slack_webhook_oauth_sdk
       channel: oauth-sdk
       template: >
-        Build {{build.number}} started at {{build.started}}. View it at {{{{build.link}}}}
+        Build {{build.number}} started at {{build.started}}. View it at {{build.link}}
   - name: "unit, build, package, publish"
     image: davidiamyou/open-jdk-8:latest
     environment:
