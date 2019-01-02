@@ -13,8 +13,8 @@ package io.imulab.astrea.sdk.oauth.error
 // include the "WWW-Authenticate" response header field
 // matching the authentication scheme used by the client.
 object InvalidClient {
-    private const val code = "invalid_client"
-    private const val status = 401
+    const val code = "invalid_client"
+    const val status = 401
 
     val unknown: () -> Throwable =
         { OAuthException(status, code, "Client is unknown") }

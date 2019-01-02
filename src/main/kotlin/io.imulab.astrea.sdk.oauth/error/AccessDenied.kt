@@ -6,7 +6,7 @@ package io.imulab.astrea.sdk.oauth.error
 // request.
 object AccessDenied {
     const val code = "access_denied"
-    private const val status = 403
+    const val status = 403
 
     val byOwner: () -> Throwable =
         { OAuthException(status, code, "Resource owner denied the request.") }

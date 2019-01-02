@@ -11,8 +11,8 @@ package io.imulab.astrea.sdk.oauth.error
 // The authenticated client is not authorized to use this
 // authorization grant type.
 object UnauthorizedClient {
-    private const val code = "unauthorized_client"
-    private const val status = 400
+    const val code = "unauthorized_client"
+    const val status = 400
 
     val forbiddenResponseType: (String) -> Throwable =
         { rt ->

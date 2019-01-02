@@ -5,8 +5,8 @@ package io.imulab.astrea.sdk.oauth.error
 // The authorization grant type is not supported by the
 // authorization server.
 object UnsupportedGrantType {
-    private const val code = "unsupported_grant_type"
-    private const val status = 400
+    const val code = "unsupported_grant_type"
+    const val status = 400
 
     val unsupported: (String) -> Throwable =
         { gt ->

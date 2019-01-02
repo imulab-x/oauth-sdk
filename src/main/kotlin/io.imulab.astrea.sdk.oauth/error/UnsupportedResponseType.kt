@@ -6,7 +6,7 @@ package io.imulab.astrea.sdk.oauth.error
 // authorization code or access token using this method.
 object UnsupportedResponseType {
     const val code = "unsupported_response_type"
-    private const val status = 400
+    const val status = 400
 
     val unsupported: (String) -> Throwable =
         { rt ->
